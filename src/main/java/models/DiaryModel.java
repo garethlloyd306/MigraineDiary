@@ -28,7 +28,7 @@ import lib.AeSimpleSHA1;
  *
  * @author garethlloyd
  */
-@WebServlet(name = "DiaryModel", urlPatterns = {"/DiaryModel"})
+@WebServlet(name = "DiaryModel", urlPatterns = {"/DiaryModel/*"})
 
 public class DiaryModel
 {
