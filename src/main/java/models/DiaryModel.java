@@ -22,6 +22,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.math.*;
 import lib.AeSimpleSHA1;
 
 /**
@@ -40,11 +41,32 @@ public class DiaryModel
 	
 	public boolean addDiary(String username, String start, String end, String description, String medication, String triggers, int severity)
 	{
-               int diaryId=6;
+            int diaryId=0;
+            Session csession = cluster.connect("migrainediary");
+             PreparedStatement ps1 = csession.prepare("SELECT COUNT(*) FROM diary");
+            BoundStatement boundStatement = new BoundStatement(ps1);
+            ResultSet rs1 = csession.execute(
+                    boundStatement.bind() );
+            if (rs1.isExhausted()){
+                
+                
+            }else{
+                
+                
+                for (Row row : rs1){
+                      long diaryId1 = row.getLong("count");
+                      diaryId = (int) (long) diaryId1;
+                      
+                        
+                }
+                
+                diaryId++;
+                }
+            
             Session session = cluster.connect("migrainediary");
             PreparedStatement ps = session.prepare("insert into migrainediary.diary (diaryid, username, start, end, description, medication, triggers, severity) values(?,?,?,?,?,?,?,?)");
-            BoundStatement boundStatement = new BoundStatement(ps);
-            session.execute(boundStatement.bind(diaryId,username, start, end, description, medication, triggers, severity));
+            BoundStatement boundStatement1 = new BoundStatement(ps);
+            session.execute(boundStatement1.bind(diaryId,username, start, end, description, medication, triggers, severity));
             return true;
 	}
  

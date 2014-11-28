@@ -112,11 +112,15 @@ public class ViewDiary extends HttpServlet {
     private void displayDiary (String user, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("Display Profile information for "+user);
         RequestDispatcher rd = null;
-        DiaryInfo dInfo = dmodel.getDiaryInfo(user);
+ 
+     
+       
+           
+       
+        String[] dInfo= dmodel.getDiaryInfo(user);
         
         rd = request.getRequestDispatcher("/ViewDiary.jsp");
         request.setAttribute("DiaryInfo", dInfo);
-
         rd.forward(request, response);
     }
 }
